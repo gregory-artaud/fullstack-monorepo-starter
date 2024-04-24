@@ -9,7 +9,9 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "common": "pnpm --filter common",
-    "frontend": "pnpm --filter frontend"
+    "frontend": "pnpm --filter frontend",
+    "dev": "pnpm --stream -r run dev",
+    "dev:start": "pnpm --stream -r run dev:start"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [

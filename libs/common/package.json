@@ -4,9 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "dev": "tsc && vite build --watch",
+    "build": "tsc && vite build"
   },
   "main": "./dist/common.js",
   "types": "./dist/main.d.ts",
