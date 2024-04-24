@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "common": "pnpm --filter common"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [
