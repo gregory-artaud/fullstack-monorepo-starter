@@ -9,6 +9,15 @@ export default [
       globals: globals.browser,
     },
   },
+  {
+    ignores: [
+      'coverage',
+      'public',
+      'dist',
+      'pnpm-lock.yaml',
+      'pnpm-workspace.yaml',
+    ],
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
