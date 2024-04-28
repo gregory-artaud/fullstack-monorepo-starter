@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier .",
+    "format:check": "prettier --check .",
     "common": "pnpm --filter common",
     "frontend": "pnpm --filter frontend",
     "backend": "pnpm --filter backend",
