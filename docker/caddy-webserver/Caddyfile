@@ -1,0 +1,12 @@
+# Replace localhost with the final app domain name
+localhost {
+	handle /api* {
+		reverse_proxy /api* backend:3333
+	}
+
+	handle {
+		root * /srv
+    try_files {path} /index.html
+    file_server
+	}
+}

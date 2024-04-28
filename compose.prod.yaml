@@ -5,13 +5,13 @@ services:
       context: .
       dockerfile: docker/base/Dockerfile
 
-  frontend:
+  caddy-webserver:
     depends_on: [base]
-    image: frontend
+    image: caddy-webserver
     restart: unless-stopped
     build:
       context: .
-      dockerfile: docker/frontend/Dockerfile
+      dockerfile: docker/caddy-webserver/Dockerfile
     ports:
       - '80:80'
       - '443:443'
@@ -19,7 +19,17 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-      - $PWD/docker/frontend/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/docker/caddy-webserver/Caddyfile:/etc/caddy/Caddyfile
+
+  backend:
+    depends_on: [base]
+    image: backend
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    ports:
+      - '3333:3333'
 
 volumes:
   caddy_data:
