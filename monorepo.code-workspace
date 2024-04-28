@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "name": "ROOT",
+      "path": ".",
+    },
+    {
+      "name": "🗄️ BACKEND",
+      "path": "apps/backend",
+    },
+    {
+      "name": "🖼️ FRONTEND",
+      "path": "apps/frontend",
+    },
+    {
+      "name": "📦 COMMON",
+      "path": "libs/common",
+    },
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "material-icon-theme.folders.associations": {
+      "caddy-webserver": "Global",
+    },
+  },
+}
