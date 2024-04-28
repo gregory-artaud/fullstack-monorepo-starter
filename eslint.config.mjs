@@ -16,6 +16,7 @@ export default [
       'dist',
       'pnpm-lock.yaml',
       'pnpm-workspace.yaml',
+      '**/.eslintrc.cjs',
     ],
   },
   pluginJs.configs.recommended,

@@ -6,12 +6,12 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
+    "format:check": "prettier .",
     "common": "pnpm --filter common",
     "frontend": "pnpm --filter frontend",
     "backend": "pnpm --filter backend",
     "dev": "docker compose -f compose.dev.yaml up -d --build && pnpm --stream -r run dev",
-    "dev:start": "pnpm --stream -r run dev:start",
-    "test": "pnpm run -r test"
+    "dev:start": "pnpm --stream -r run dev:start"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [
