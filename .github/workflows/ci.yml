@@ -1,0 +1,43 @@
+on:
+  - push
+  - pull_request
+
+jobs:
+  code-style-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/cache-and-install
+
+      - name: ESLint
+        run: pnpm run lint
+
+      - name: Prettier
+        run: pnpm run format:check
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/cache-and-install
+
+      - name: Build
+        run: pnpm run -r build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/cache-and-install
+
+      - name: backend
+        run: pnpm backend run test
+
+      - name: frontend
+        run: pnpm frontend run test
+
+      - name: common
+        run: pnpm common run test
