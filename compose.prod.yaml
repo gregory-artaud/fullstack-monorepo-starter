@@ -1,0 +1,27 @@
+services:
+  base:
+    image: base
+    build:
+      context: .
+      dockerfile: docker/base/Dockerfile
+
+  frontend:
+    depends_on: [base]
+    image: frontend
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - $PWD/docker/frontend/Caddyfile:/etc/caddy/Caddyfile
+
+volumes:
+  caddy_data:
+    external: true
+  caddy_config:

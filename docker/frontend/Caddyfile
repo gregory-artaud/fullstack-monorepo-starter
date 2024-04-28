@@ -1,0 +1,6 @@
+# Replace localhost with the final frontend's domain name
+localhost {
+  root * /srv
+  file_server
+  try_files {path} /index.html
+}

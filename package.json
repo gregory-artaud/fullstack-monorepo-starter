@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "common": "pnpm --filter common",
     "frontend": "pnpm --filter frontend",
-    "dev": "pnpm --stream -r run dev",
+    "dev": "docker compose -f compose.dev.yaml up -d --build && pnpm --stream -r run dev",
     "dev:start": "pnpm --stream -r run dev:start"
   },
   "lint-staged": {
