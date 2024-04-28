@@ -5,13 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "tsc && vite build --watch",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest --watch",
+    "test:overage": "vitest run --coverage"
   },
   "main": "./dist/common.js",
   "types": "./dist/main.d.ts",
   "devDependencies": {
+    "@vitest/coverage-v8": "^1.5.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "vite-plugin-dts": "^3.9.0"
+    "vite-plugin-dts": "^3.9.0",
+    "vitest": "^1.5.2"
   }
 }

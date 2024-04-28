@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "format": "prettier --write .",
     "common": "pnpm --filter common",
     "frontend": "pnpm --filter frontend",
+    "backend": "pnpm --filter backend",
     "dev": "docker compose -f compose.dev.yaml up -d --build && pnpm --stream -r run dev",
-    "dev:start": "pnpm --stream -r run dev:start"
+    "dev:start": "pnpm --stream -r run dev:start",
+    "test": "pnpm run -r test"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [
