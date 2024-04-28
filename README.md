@@ -65,3 +65,4 @@ docker compose -f compose.prod.yaml up -d --build
 
 - [ ] Terraform modules to run EC2 and RDS instances before deploying
 - [ ] CD pipeline in Github Actions
+- [ ] Dependabot in Github Actions
