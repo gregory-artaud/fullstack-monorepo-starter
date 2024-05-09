@@ -16,7 +16,7 @@ jobs:
         run: git clone https://github.com/elasticdog/transcrypt.git
 
       - name: Decrypt sensitive files
-        run: transcrypt/transcrypt -c aes-256-cbc -p ${{ secrets.TRANSCRIPT_KEY }} -y
+        run: transcrypt/transcrypt -c aes-256-cbc -p ${{ secrets.TRANSCRYPT_KEY }} -y
 
       - name: Generate the deployment package
         run: zip -r deployment.zip . -x '*.git*' 'transcrypt'
