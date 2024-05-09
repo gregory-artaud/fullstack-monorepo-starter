@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - production
+
+name: Deploy to production
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate deployment package
+        run: zip -r deployment.zip . -x '*.git*'
+
+      - uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_PRODUCTION_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.EC2_PRODUCTION_HOST }}
+          REMOTE_USER: ubuntu
+          SOURCE: deployment.zip
+          TARGET: /home/ubuntu
+          SCRIPT_BEFORE: |
+            if [ -d "${{ github.event.repository.name }}" ]; then
+              docker compose -f ${{ github.event.repository.name }}/compose.prod.yaml down
+            fi
+          SCRIPT_AFTER: |
+            unzip -qq -o deploy.zip -d ${{ github.event.repository.name }}
+            cd ${{ github.event.repository.name }}
+            docker compose -f compose.prod.yaml up -d --build
