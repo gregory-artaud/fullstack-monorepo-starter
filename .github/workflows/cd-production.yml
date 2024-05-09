@@ -37,4 +37,5 @@ jobs:
             unzip -qq -o deployment.zip -d ${{ github.event.repository.name }}
             rm -rf deployment.zip
             cd ${{ github.event.repository.name }}
+            docker volume create --name=caddy_data
             docker compose -f compose.prod.yaml up -d --build
