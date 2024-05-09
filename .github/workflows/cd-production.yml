@@ -12,8 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate deployment package
-        run: zip -r deployment.zip . -x '*.git*'
+      - name: Install transcrypt
+        run: git clone https://github.com/elasticdog/transcrypt.git
+
+      - name: Decrypt sensitive files
+        run: transcrypt/transcrypt -c aes-256-cbc -p ${{ secrets.TRANSCRIPT_KEY }} -y
+
+      - name: Generate the deployment package
+        run: zip -r deployment.zip . -x '*.git*' 'transcrypt'
 
       - uses: easingthemes/ssh-deploy@main
         with:
@@ -26,6 +32,7 @@ jobs:
             if [ -d "${{ github.event.repository.name }}" ]; then
               docker compose -f ${{ github.event.repository.name }}/compose.prod.yaml down
             fi
+            rm -rf ${{ github.event.repository.name }}
           SCRIPT_AFTER: |
             unzip -qq -o deploy.zip -d ${{ github.event.repository.name }}
             cd ${{ github.event.repository.name }}
