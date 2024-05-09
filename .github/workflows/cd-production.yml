@@ -34,6 +34,7 @@ jobs:
             fi
             rm -rf ${{ github.event.repository.name }}
           SCRIPT_AFTER: |
-            unzip -qq -o deploy.zip -d ${{ github.event.repository.name }}
+            unzip -qq -o deployment.zip -d ${{ github.event.repository.name }}
+            rm -rf deployment.zip
             cd ${{ github.event.repository.name }}
             docker compose -f compose.prod.yaml up -d --build
