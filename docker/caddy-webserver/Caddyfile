@@ -1,5 +1,5 @@
-# Replace localhost with the final app domain name
-localhost {
+# Replace 'fullstack-starter.gregory-artaud.fr' with the final app domain name
+fullstack-starter.gregory-artaud.fr {
 	handle /api* {
 		reverse_proxy /api* backend:3333
 	}
