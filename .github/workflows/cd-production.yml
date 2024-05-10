@@ -12,30 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install transcrypt
-        run: git clone https://github.com/elasticdog/transcrypt.git
-
-      - name: Decrypt sensitive files
-        run: transcrypt/transcrypt -c aes-256-cbc -p ${{ secrets.TRANSCRYPT_KEY }} -y
-
-      - name: Generate the deployment package
-        run: zip -r deployment.zip . -x '*.git*' 'transcrypt'
-
-      - uses: easingthemes/ssh-deploy@main
+      - uses: ./.github/actions/deploy
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_PRODUCTION_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.EC2_PRODUCTION_HOST }}
           REMOTE_USER: ubuntu
-          SOURCE: deployment.zip
           TARGET: /home/ubuntu
-          SCRIPT_BEFORE: |
-            if [ -d "${{ github.event.repository.name }}" ]; then
-              docker compose -f ${{ github.event.repository.name }}/compose.prod.yaml down
-            fi
-            rm -rf ${{ github.event.repository.name }}
-          SCRIPT_AFTER: |
-            unzip -qq -o deployment.zip -d ${{ github.event.repository.name }}
-            rm -rf deployment.zip
-            cd ${{ github.event.repository.name }}
-            docker volume create --name=caddy_data
-            docker compose -f compose.prod.yaml up -d --build
+          APP_DIRECTORY_NAME: ${{ github.event.repository.name }}
+          TRANSCRYPT_KEY: ${{ secrets.TRANSCRYPT_KEY }}
+          SSH_KEY: ${{ secrets.EC2_PRODUCTION_SSH_KEY }}

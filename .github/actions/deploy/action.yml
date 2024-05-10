@@ -1,0 +1,57 @@
+name: Deploy
+description: Deploys to remote host
+
+inputs:
+  REMOTE_HOST:
+    description: 'Remote hostname or ip'
+    required: true
+  REMOTE_USER:
+    description: 'Remote username'
+    required: true
+  TARGET:
+    description: 'Absolute path to host work directory'
+    required: true
+  APP_DIRECTORY_NAME:
+    description: 'Application directory name to use. This directory will be accessible at the path: $TARGET/$APP_DIRECTORY_NAME'
+    required: false
+    default: 'app'
+  TRANSCRYPT_KEY:
+    description: 'The key used to decrypt sensitive files'
+    required: true
+  SSH_KEY:
+    description: 'The private ssh key used to access the remote host'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install transcrypt
+      shell: bash
+      run: git clone https://github.com/elasticdog/transcrypt.git
+
+    - name: Decrypt sensitive files
+      shell: bash
+      run: transcrypt/transcrypt -c aes-256-cbc -p ${{ inputs.TRANSCRYPT_KEY }} -y
+
+    - name: Generate the deployment package
+      shell: bash
+      run: zip -r deployment.zip . -x '*.git*' 'transcrypt'
+
+    - uses: easingthemes/ssh-deploy@main
+      with:
+        SSH_PRIVATE_KEY: ${{ inputs.SSH_KEY }}
+        REMOTE_HOST: ${{ inputs.REMOTE_HOST }}
+        REMOTE_USER: ${{ inputs.REMOTE_USER }}
+        SOURCE: deployment.zip
+        TARGET: ${{ inputs.TARGET }}
+        SCRIPT_BEFORE: |
+          if [ -d "${{ inputs.APP_DIRECTORY_NAME }}" ]; then
+            docker compose -f ${{ inputs.APP_DIRECTORY_NAME }}/compose.prod.yaml down
+          fi
+          rm -rf ${{ inputs.APP_DIRECTORY_NAME }}
+        SCRIPT_AFTER: |
+          unzip -qq -o deployment.zip -d ${{ inputs.APP_DIRECTORY_NAME }}
+          rm -rf deployment.zip
+          cd ${{ inputs.APP_DIRECTORY_NAME }}
+          docker volume create --name=caddy_data
+          docker compose -f compose.prod.yaml up -d --build
