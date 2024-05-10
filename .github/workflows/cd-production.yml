@@ -16,7 +16,7 @@ jobs:
         run: git clone https://github.com/elasticdog/transcrypt.git
 
       - name: Decrypt sensitive files
-        run: transcrypt/transcrypt -c aes-256-cbc -p ${{ secrets.TRANSCRIPT_KEY }} -y
+        run: transcrypt/transcrypt -c aes-256-cbc -p ${{ secrets.TRANSCRYPT_KEY }} -y
 
       - name: Generate the deployment package
         run: zip -r deployment.zip . -x '*.git*' 'transcrypt'
@@ -34,6 +34,8 @@ jobs:
             fi
             rm -rf ${{ github.event.repository.name }}
           SCRIPT_AFTER: |
-            unzip -qq -o deploy.zip -d ${{ github.event.repository.name }}
+            unzip -qq -o deployment.zip -d ${{ github.event.repository.name }}
+            rm -rf deployment.zip
             cd ${{ github.event.repository.name }}
+            docker volume create --name=caddy_data
             docker compose -f compose.prod.yaml up -d --build

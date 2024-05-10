@@ -49,10 +49,10 @@ git clone https://github.com/gregory-artaud/fullstack-monorepo-starter.git
 
 I assume you already have a domain name and added a A record to your deployment machine's IP.
 
-Replace "localhost" by your domain name in the `caddy-webserver`'s `Caddyfile`
+Replace "fullstack-starter.gregory-artaud.fr" by your domain name in the `caddy-webserver`'s `Caddyfile`
 
 ```bash
-sed -i 's/localhost/<domain_name>/g' docker/caddy-webserver/Caddyfile
+sed -i 's/fullstack-starter.gregory-artaud.fr/<domain_name>/g' docker/caddy-webserver/Caddyfile
 ```
 
 On the server, run:
