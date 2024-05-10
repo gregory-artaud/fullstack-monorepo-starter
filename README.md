@@ -4,7 +4,9 @@
 
 ## Requirements
 
-`docker` and `docker compose` are needed to run this project.
+`docker` and `docker compose` : https://docs.docker.com/engine/install/
+
+`transcrypt` : https://github.com/elasticdog/transcrypt
 
 ## How to set up
 
@@ -13,10 +15,6 @@ pnpm install
 ```
 
 ## How to launch development environment
-
-Firstly fill the needed `.env` files in the different apps:
-
-- backend
 
 In a terminal run
 
@@ -33,6 +31,8 @@ pnpm run dev:start
 ```
 
 ## How to deploy
+
+### Manually
 
 This project is meant to be run on a single VPS (AWS EC2 in the example).
 Here is a schema showing what the compose file is deploying when I use this on AWS.
@@ -61,8 +61,45 @@ On the server, run:
 docker compose -f compose.prod.yaml up -d --build
 ```
 
+### Using continuous deployment
+
+I assume you already have a deployment machine, a database instance, a domain name and added a A record to your deployment machine's IP.
+
+If you don't already have the infrastructure, you can use the terraform configuration.
+To use it you must install terraform and set up the environment to use aws. (https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)
+
+Then deploy the infrastructure
+
+```bash
+cd terraform
+terraform deploy
+```
+
+On github, you must set the following secrets
+
+- `TRANSCRYPT_KEY`: the key you got when you set up transcrypt for the repository
+- `EC2_PRODUCTION_HOST`: the IP or hostname of your deployment machine
+- `EC2_PRODUCTION_SSH_KEY`: the OPENSSH private key to connect to your deployment machine
+
+Replace "fullstack-starter.gregory-artaud.fr" by your domain name in the `caddy-webserver`'s `Caddyfile`
+
+```bash
+sed -i 's/fullstack-starter.gregory-artaud.fr/<your_domain_name>/g' docker/caddy-webserver/Caddyfile
+```
+
+Push this change to production
+
+```bash
+git checkout production
+git add .
+git commit -m 'chore: changed domain name'
+git push
+```
+
+Go to `https://<your_domain_name>`, and your app should be deployed.
+
+After that, any push to the production branch will trigger a deploy.
+
 ## What's next
 
-- [ ] Terraform modules to run EC2 and RDS instances before deploying
-- [ ] CD pipeline in Github Actions
-- [ ] Dependabot in Github Actions
+- [ ] Dependabot in Github Actions with automerge job
