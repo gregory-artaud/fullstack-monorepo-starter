@@ -1,4 +1,4 @@
-FROM node:20-slim as base
+FROM node:20-slim AS base
 
 # Add pnpm
 ENV PNPM_HOME="/pnpm"

@@ -50,6 +50,9 @@ transcrypt
 
 Keep the new secret key, you will need it later
 
+If you want to use the terraform infrastructure, you will need to configure your AWS profile
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
+
 ## How to launch development environment
 
 In a terminal run
@@ -85,13 +88,21 @@ git clone https://github.com/gregory-artaud/fullstack-monorepo-starter.git
 
 I assume you already have a domain name and added a A record to your deployment machine's IP.
 
-Replace "fullstack-starter.gregory-artaud.fr" by your domain name in the `caddy-webserver`'s `Caddyfile`
+Replace "fullstack-monorepo-starter.gregory-artaud.fr" by your domain name in the `caddy-webserver`'s `Caddyfile`
 
 ```bash
-sed -i 's/fullstack-starter.gregory-artaud.fr/<domain_name>/g' docker/caddy-webserver/Caddyfile
+sed -i 's/fullstack-monorepo-starter.gregory-artaud.fr/<domain_name>/g' docker/caddy-webserver/Caddyfile
 ```
 
-On the server, run:
+Populate `.env.production` with the right values manually
+
+Create the caddy_data external volume
+
+```bash
+docker volume create caddy_data
+```
+
+Start the app
 
 ```bash
 docker compose -f compose.prod.yaml up -d --build
