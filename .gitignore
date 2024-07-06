@@ -4,3 +4,5 @@ coverage
 .terraform
 terraform/**/*.tfstate*
 terraform/**/*.tfvars
+.env*
+.env

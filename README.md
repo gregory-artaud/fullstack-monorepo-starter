@@ -8,10 +8,26 @@
 
 `transcrypt` : https://github.com/elasticdog/transcrypt
 
+`pnpm` : https://pnpm.io/installation
+
 ## How to set up
+
+Make sure you have the right node version
+
+```bash
+nvm install
+```
+
+Install dependencies
 
 ```bash
 pnpm install
+```
+
+Populate backend `.env` file
+
+```bash
+cp apps/backend/.env.development apps/backend/.env
 ```
 
 ## How to launch development environment
