@@ -31,3 +31,13 @@ variable "DOMAIN_NAME" {
   description = "The name of the domain where the app will be accessible"
   type        = string
 }
+
+variable "AWS_REGION" {
+  description = "The name of the region to use on AWS"
+  type        = string
+}
+
+variable "AWS_ACCOUNT_ID" {
+  description = "The id of the account to use on AWS"
+  type        = string
+}

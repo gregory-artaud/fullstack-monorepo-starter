@@ -1,12 +1,11 @@
-# Replace 'fullstack-starter.gregory-artaud.fr' with the final app domain name
-fullstack-starter.gregory-artaud.fr {
-	handle /api* {
-		reverse_proxy /api* backend:3333
-	}
+# Replace 'fullstack-monorepo-starter.gregory-artaud.fr' with the final app domain name
+http://fullstack-monorepo-starter.gregory-artaud.fr/api* {
+	redir /api /api/
+	reverse_proxy backend:3333
+}
 
-	handle {
-		root * /srv
-    try_files {path} /index.html
-    file_server
-	}
+fullstack-monorepo-starter.gregory-artaud.fr {
+	root * /srv
+	try_files {path} /index.html
+	file_server
 }
