@@ -12,6 +12,8 @@
 
 ## How to set up
 
+### Development environment
+
 Make sure you have the right node version
 
 ```bash
@@ -24,11 +26,29 @@ Install dependencies
 pnpm install
 ```
 
-Populate backend `.env` file
+Populate backend `.env` file for development
 
 ```bash
 cp apps/backend/.env.development apps/backend/.env
 ```
+
+### Deployment
+
+This assumes you already set up the development evironment
+
+Reset backend `.env.production` file
+
+```bash
+cp apps/backend/.env.sample apps/backend/.env.production
+```
+
+Reset `transcrypt` configuration
+
+```bash
+transcrypt
+```
+
+Keep the new secret key, you will need it later
 
 ## How to launch development environment
 
